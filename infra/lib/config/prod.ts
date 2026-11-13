@@ -18,6 +18,7 @@ export function prodConfig(account: string): EnvConfig {
       accessTokenMinutes: 15,
     },
     memory: {
+      enabled: true,
       expirationDays: 30,
       ltmEnabled: false,
     },

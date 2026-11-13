@@ -12,7 +12,7 @@
 | Claims en el access token | Pre Token Generation **V2_0**: `mall_id` (entero de 1 a 6 dígitos validado) y `roles` (solo grupos de Cognito conocidos); nunca claims reservados | `functions/identity/pre_token/tests` (casos adversariales) |
 | Contraseñas de prueba fuera de la plantilla | Secrets Manager con CMK + custom resource `AdminSetUserPassword`; la plantilla solo lleva el ARN | `identity-stack.test.ts`, `seed_users/tests` |
 | Tokens de corta duración | Access/ID de 60 min en dev y 15 min en prod; refresh de 12 h; revocación activa | `identity-stack.test.ts` |
-| Cifrado | CMK con rotación para secretos y AgentCore Memory | `identity-stack.test.ts` |
+| Cifrado | CMK con rotación para secretos (y AgentCore Memory cuando `memory.enabled`) | `identity-stack.test.ts` |
 | CI sin credenciales externas | CDK Pipelines; validación de PR anclada a un único actor de GitHub y con rol solo de lookup | `pipeline-stack.test.ts`, ADR-009 |
 
 ## Acknowledgments de cdk-nag (v3: uno por hallazgo)

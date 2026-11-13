@@ -14,7 +14,7 @@ Construida con AgentCore (Runtime, Memory, Gateway), Strands + LangGraph, RAG co
 
 | Bloque | Estado |
 |---|---|
-| Viernes noche: repo, `Makefile`, `PipelineStack` (CDK Pipelines) e `IdentityStack` (Cognito, KMS, Memory) | En curso |
+| Viernes noche: repo, `Makefile`, `PipelineStack` (CDK Pipelines) e `IdentityStack` (Cognito, KMS) | Desplegado; smoke OK. Pipeline a la espera de la cuota de CodeBuild; Memory a la espera de soporte de AWS |
 
 ## Cómo correrlo
 

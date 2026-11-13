@@ -86,8 +86,19 @@ describe('IdentityStack (dev)', () => {
     template.hasResourceProperties('AWS::KMS::Alias', { AliasName: 'alias/mall-agents/dev' });
   });
 
-  test('AgentCore Memory cifrada con la CMK, STM de 30 días y sin LTM (flag)', () => {
-    template.hasResourceProperties('AWS::BedrockAgentCore::Memory', {
+  test('dev: sin AgentCore Memory mientras la cuenta lo tenga bloqueado (flag memory.enabled)', () => {
+    template.resourceCountIs('AWS::BedrockAgentCore::Memory', 0);
+    expect(JSON.stringify(template.findResources('AWS::SSM::Parameter'))).not.toContain('memory/id');
+  });
+
+  test('con memory.enabled: Memory cifrada con la CMK, STM de 30 días, sin LTM y parámetro SSM', () => {
+    const base = devConfig(TEST_ACCOUNT);
+    const { template: withMemory } = identityTemplate({ ...base, memory: { ...base.memory, enabled: true } });
+    withMemory.hasResourceProperties('AWS::SSM::Parameter', { Name: '/mall-agents/dev/memory/id' });
+    withMemory.templateMatches({
+      Resources: { AgentMemory1601EF79: Match.objectLike({ Type: 'AWS::BedrockAgentCore::Memory' }) },
+    });
+    withMemory.hasResourceProperties('AWS::BedrockAgentCore::Memory', {
       EventExpiryDuration: 30,
       EncryptionKeyArn: { 'Fn::GetAtt': [Match.stringLikeRegexp('^Key'), 'Arn'] },
       MemoryStrategies: Match.absent(),
@@ -147,7 +158,7 @@ describe('IdentityStack (dev)', () => {
   });
 
   test('parámetros SSM para consumidores fuera de CDK', () => {
-    for (const name of ['cognito/user-pool-id', 'cognito/web-client-id', 'cognito/domain', 'memory/id', 'region']) {
+    for (const name of ['cognito/user-pool-id', 'cognito/web-client-id', 'cognito/domain', 'region']) {
       template.hasResourceProperties('AWS::SSM::Parameter', { Name: `/mall-agents/dev/${name}` });
     }
   });
@@ -163,7 +174,6 @@ describe('IdentityStack (dev)', () => {
       Resources: {
         AuthUserPool8115E87F: Match.objectLike({ Type: 'AWS::Cognito::UserPool' }),
         Key961B73FD: Match.objectLike({ Type: 'AWS::KMS::Key' }),
-        AgentMemory1601EF79: Match.objectLike({ Type: 'AWS::BedrockAgentCore::Memory' }),
       },
     });
   });

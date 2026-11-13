@@ -26,6 +26,11 @@ export interface EnvConfig {
     readonly accessTokenMinutes: number;
   };
   readonly memory: {
+    /**
+     * Crea AgentCore Memory. En false mientras la cuenta tenga AgentCore bloqueado
+     * (CreateMemory -> AccessDenied "Contact customer support", 2026-11-13); alternativa: STM propio (§2.4).
+     */
+    readonly enabled: boolean;
     /** Expiración de eventos STM (7..365 días). */
     readonly expirationDays: number;
     /** Estrategias LTM integradas; usan modelos administrados (§2.4). */
