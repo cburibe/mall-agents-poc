@@ -101,6 +101,23 @@ describe('PipelineStack', () => {
     });
   });
 
+  test('validación de PR: la política de la conexión existe antes del proyecto (CodeBuild valida GetConnection)', () => {
+    template.hasResource('AWS::CodeBuild::Project', {
+      Properties: { Source: Match.objectLike({ Type: 'GITHUB' }) },
+      DependsOn: Match.arrayWith([Match.stringLikeRegexp('^PrValidationConnectionPolicy')]),
+    });
+    template.hasResourceProperties('AWS::IAM::Policy', {
+      PolicyDocument: {
+        Statement: [
+          Match.objectLike({
+            Action: Match.arrayWith(['codeconnections:GetConnection', 'codeconnections:UseConnection']),
+            Resource: TEST_CONNECTION_ARN,
+          }),
+        ],
+      },
+    });
+  });
+
   test('validación de PR: solo puede asumir el rol de lookup (lectura), nunca el de deploy', () => {
     const policies = JSON.stringify(template.findResources('AWS::IAM::Policy'));
     expect(policies).toContain(`role/cdk-hnb659fds-lookup-role-${TEST_ACCOUNT}-us-east-2`);

@@ -65,16 +65,24 @@ export class PrValidation extends Construct {
     const cfnProject = this.project.node.defaultChild as codebuild.CfnProject;
     cfnProject.addPropertyOverride('Source.Auth', { Type: 'CODECONNECTIONS', Resource: props.connectionArn });
 
-    this.project.addToRolePolicy(
-      new iam.PolicyStatement({
-        actions: [
-          'codeconnections:UseConnection',
-          'codeconnections:GetConnectionToken',
-          'codestar-connections:UseConnection',
-        ],
-        resources: [props.connectionArn],
-      }),
-    );
+    // CodeBuild valida la conexión al CREAR el proyecto (GetConnection) con el rol del proyecto:
+    // la política debe existir antes que el proyecto.
+    const connectionPolicy = new iam.Policy(this, 'ConnectionPolicy', {
+      statements: [
+        new iam.PolicyStatement({
+          actions: [
+            'codeconnections:GetConnection',
+            'codeconnections:UseConnection',
+            'codeconnections:GetConnectionToken',
+            'codestar-connections:GetConnection',
+            'codestar-connections:UseConnection',
+          ],
+          resources: [props.connectionArn],
+        }),
+      ],
+    });
+    if (this.project.role) connectionPolicy.attachToRole(this.project.role);
+    cfnProject.addResourceDependency(connectionPolicy.node.defaultChild as iam.CfnPolicy);
     // Solo lectura: cdk diff asume el rol de lookup del bootstrap (ReadOnly), nunca el de deploy.
     this.project.addToRolePolicy(
       new iam.PolicyStatement({
