@@ -8,7 +8,7 @@ dependencies = []
 
 [dependency-groups]
 dev = [
-    "bandit[toml]>=1.8",
+    "bandit[toml]>=1.9.4",
     "boto3>=1.40,<2",
     "checkov>=3.2",
     "pip-audit>=2.9",
