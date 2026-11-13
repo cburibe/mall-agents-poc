@@ -1,0 +1,18 @@
+# BP-GH-02. No hay workflows de GitHub Actions (CI/CD con CDK Pipelines, ADR-009).
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /infra
+    schedule: { interval: weekly }
+    groups:
+      aws-cdk:
+        patterns: ['aws-cdk', 'aws-cdk-lib', '@aws-cdk/*']
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: uv
+    directories:
+      - /
+      - /functions/identity/pre_token
+      - /functions/identity/seed_users
+    schedule: { interval: weekly }
+    open-pull-requests-limit: 5

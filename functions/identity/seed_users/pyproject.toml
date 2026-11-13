@@ -1,0 +1,32 @@
+[project]
+name = "seed-users"
+version = "0.1.0"
+description = "Custom resource (dev): fija la contraseña permanente de usuarios de prueba de Cognito"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "aws-lambda-powertools[tracer]>=3.20,<4",
+    "boto3>=1.40,<2",
+]
+
+[dependency-groups]
+dev = [
+    "boto3-stubs[cognito-idp,secretsmanager]>=1.40",
+    "mypy>=1.18",
+    "pytest>=8.4",
+    "pytest-cov>=7.0",
+]
+
+[tool.uv]
+package = false
+exclude-newer = "2026-10-30T00:00:00Z"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--cov=. --cov-report=term-missing --cov-fail-under=80"
+
+[tool.coverage.run]
+omit = ["tests/*"]
+
+[tool.mypy]
+strict = true
+python_version = "3.12"

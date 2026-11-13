@@ -1,0 +1,37 @@
+# Proyecto de HERRAMIENTAS del repo (lint, seguridad, smoke). Cada Lambda/agente tiene su propio
+# pyproject.toml + uv.lock (BP-PY-01).
+[project]
+name = "mall-agents-tools"
+version = "0.1.0"
+requires-python = ">=3.12,<3.13"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "bandit[toml]>=1.8",
+    "boto3>=1.40,<2",
+    "checkov>=3.2",
+    "pip-audit>=2.9",
+    "pycognito>=2024.5.1",
+    "requests>=2.32",
+    "ruff>=0.14",
+]
+
+[tool.uv]
+package = false
+exclude-newer = "2026-10-30T00:00:00Z"
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+extend-exclude = ["infra/cdk.out", "infra/node_modules", ".tools"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "S", "N", "SIM", "RUF", "PL", "T20"]
+ignore = ["PLR2004"]
+
+[tool.ruff.lint.per-file-ignores]
+"**/tests/**" = ["S101", "S105", "S106", "PLR0913"]
+
+[tool.bandit]
+exclude_dirs = ["tests", ".venv", "infra"]

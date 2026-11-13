@@ -1,0 +1,31 @@
+# Node / CDK
+node_modules/
+infra/cdk.out/
+*.d.ts
+!infra/types/*.d.ts
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Herramientas fijadas (scripts/ci/install-tools.sh)
+.tools/
+
+# Entorno local
+.env
+.env.*
+.DS_Store
+*.log
+
+# Claude Code (configuración local)
+.claude/settings.local.json
+
+# Documento de trabajo privado (contexto de la entrevista): no se publica
+PROPUESTA-Y-REQUERIMIENTOS.md

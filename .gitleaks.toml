@@ -1,0 +1,15 @@
+title = "mall-agents-poc"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Artefactos generados y dependencias"
+paths = [
+  '''infra/cdk\.out/''',
+  '''node_modules/''',
+  '''\.venv/''',
+  '''\.tools/''',
+  '''uv\.lock$''',
+  '''package-lock\.json$''',
+]

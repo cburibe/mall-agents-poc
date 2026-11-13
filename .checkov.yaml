@@ -1,0 +1,21 @@
+# checkov sobre infra/cdk.out (BP-PIPE-03). Solo decisiones de diseño globales, con su motivo;
+# las excepciones puntuales van como metadata "checkov.skip" en el recurso (infra/lib/aspects/checkov.ts).
+# Todas listadas en docs/SEGURIDAD.md.
+framework:
+  - cloudformation
+compact: true
+quiet: true
+skip-check:
+  # Lambdas fuera de VPC por diseño (Data APIs, sin NAT): ADR-006.
+  - CKV_AWS_117
+  # DLQ solo aplica a invocaciones asíncronas (BP-LMB-03); las Lambdas actuales son síncronas
+  # (trigger de Cognito y custom resources).
+  - CKV_AWS_116
+  # Variables de entorno sin secretos (solo configuración de Powertools y ARNs, BP-LMB-02).
+  - CKV_AWS_173
+  # Concurrencia reservada: la cuenta tiene límite de 10 y Lambda exige 10 sin reservar.
+  # Se activa al aprobarse el aumento de cuota (RUNBOOK), BP-LMB-01.
+  - CKV_AWS_115
+  # Log groups sin CMK propia: no registran PII ni secretos (Powertools + enmascaramiento, BP-PY-06);
+  # cifrados con la clave administrada de CloudWatch Logs. CMK por log group como mejora (prod).
+  - CKV_AWS_158

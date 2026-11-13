@@ -1,0 +1,31 @@
+# pre-commit install  (BP-GH-04, BP-TS-02). Las versiones coinciden con las del lockfile/instalador.
+repos:
+  - repo: local
+    hooks:
+      - id: ruff-check
+        name: ruff check
+        entry: uv run ruff check --fix
+        language: system
+        types: [python]
+      - id: ruff-format
+        name: ruff format
+        entry: uv run ruff format
+        language: system
+        types: [python]
+      - id: gitleaks
+        name: gitleaks
+        entry: .tools/bin/gitleaks git --pre-commit --staged --redact --no-banner --config .gitleaks.toml
+        language: system
+        pass_filenames: false
+      - id: prettier-infra
+        name: prettier (infra)
+        entry: bash -c 'cd infra && npx prettier --check .'
+        language: system
+        files: ^infra/
+        pass_filenames: false
+      - id: eslint-infra
+        name: eslint (infra)
+        entry: bash -c 'cd infra && npx eslint .'
+        language: system
+        files: ^infra/.*\.ts$
+        pass_filenames: false

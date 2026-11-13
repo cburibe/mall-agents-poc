@@ -1,0 +1,20 @@
+# Registro de agentes (REQ-GOV-01, BP-AGT-01, BP-AGT-09).
+# Cada agente declara dueño, propósito, audiencia, tools, datos, modelo (rol de config/models.yaml),
+# límites, umbrales de evaluación, versión del prompt y fecha de revisión.
+# Se completa al crear cada agente (sábado/domingo).
+version: 1
+agents: []
+# Esquema de cada entrada:
+# - id: ema-orquestador
+#   owner: cburibe
+#   purpose: ...
+#   audience: [visitante, gerente_mall, analista, admin]
+#   framework: strands | langgraph
+#   runtime: agentcore-runtime
+#   model_role: router | agente | analitico | juez
+#   tools: [consultar_stock, ...]
+#   data: [{source: redshift.sem, access: read}]
+#   limits: {max_tool_calls_per_turn: 6, max_tokens: 2048, timeout_s: 60}
+#   eval_thresholds: {routing_accuracy: 0.95}
+#   prompt_version: v1
+#   review_date: 2026-11-16
