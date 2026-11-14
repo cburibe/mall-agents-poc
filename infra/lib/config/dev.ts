@@ -17,6 +17,7 @@ export function devConfig(account: string): EnvConfig {
       accessTokenMinutes: 60,
     },
     memory: {
+      enabled: false,
       expirationDays: 30,
       ltmEnabled: false,
     },

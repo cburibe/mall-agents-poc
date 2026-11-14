@@ -37,7 +37,7 @@ describe('validateConfig', () => {
       validateConfig({ ...devConfig(TEST_ACCOUNT), logRetentionDays: logs.RetentionDays.ONE_MONTH }),
     ).toThrow(/7/);
     expect(() =>
-      validateConfig({ ...devConfig(TEST_ACCOUNT), memory: { expirationDays: 3, ltmEnabled: false } }),
+      validateConfig({ ...devConfig(TEST_ACCOUNT), memory: { enabled: true, expirationDays: 3, ltmEnabled: false } }),
     ).toThrow(/expirationDays/);
   });
 });

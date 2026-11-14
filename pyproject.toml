@@ -9,7 +9,7 @@ dependencies = []
 [dependency-groups]
 dev = [
     "bandit[toml]>=1.8",
-    "boto3>=1.40,<2",
+    "boto3[crt]>=1.40,<2",  # crt: proveedor de credenciales "login" del perfil local
     "checkov>=3.2",
     "pip-audit>=2.9",
     "pycognito>=2024.5.1",

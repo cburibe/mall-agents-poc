@@ -18,7 +18,7 @@ export interface IdentityStackProps extends StackProps {
 export class IdentityStack extends Stack {
   public readonly key: kms.Key;
   public readonly auth: CognitoAuth;
-  public readonly agentMemory: AgentMemory;
+  public readonly agentMemory?: AgentMemory;
   public readonly testUsers?: TestUsers;
 
   constructor(scope: Construct, id: string, props: IdentityStackProps) {
@@ -42,12 +42,14 @@ export class IdentityStack extends Stack {
       logRetentionDays: config.logRetentionDays,
     });
 
-    this.agentMemory = new AgentMemory(this, 'AgentMemory', {
-      envName: config.envName,
-      encryptionKey: this.key,
-      expirationDays: config.memory.expirationDays,
-      ltmEnabled: config.memory.ltmEnabled,
-    });
+    if (config.memory.enabled) {
+      this.agentMemory = new AgentMemory(this, 'AgentMemory', {
+        envName: config.envName,
+        encryptionKey: this.key,
+        expirationDays: config.memory.expirationDays,
+        ltmEnabled: config.memory.ltmEnabled,
+      });
+    }
 
     if (config.cognito.seedTestUsers) {
       this.testUsers = new TestUsers(this, 'TestUsers', {
@@ -66,8 +68,10 @@ export class IdentityStack extends Stack {
       'cognito/web-client-id': this.auth.webClient.userPoolClientId,
       'cognito/orquestador-client-id': this.auth.orquestadorClient.userPoolClientId,
       'cognito/domain': this.auth.domain.baseUrl(),
-      'memory/id': this.agentMemory.memory.memoryId,
     };
+    if (this.agentMemory) {
+      params['memory/id'] = this.agentMemory.memory.memoryId;
+    }
     if (this.testUsers) {
       for (const [username, secret] of Object.entries(this.testUsers.secrets)) {
         params[`test-users/${username}/secret-arn`] = secret.secretArn;
