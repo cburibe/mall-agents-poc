@@ -4,7 +4,7 @@
   "private": true,
   "description": "Infraestructura CDK (TypeScript) de la POC mall-agents",
   "engines": {
-    "node": ">=22 <23"
+    "node": ">=24 <25"
   },
   "scripts": {
     "build": "tsc --noEmit",
@@ -22,17 +22,22 @@
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
-    "@types/jest": "29.5.14",
-    "@types/node": "22.20.5",
+    "@types/jest": "30.0.0",
+    "@types/node": "24.19.2",
     "@types/source-map-support": "0.5.10",
     "aws-cdk": "2.1148.1",
     "eslint": "10.15.0",
-    "jest": "29.7.0",
+    "jest": "30.5.2",
     "prettier": "3.10.1",
     "source-map-support": "0.5.21",
     "ts-jest": "29.4.15",
     "tsx": "4.23.15",
-    "typescript": "5.9.3",
+    "typescript": "6.0.3",
     "typescript-eslint": "8.72.2"
+  },
+  "allowScripts": {
+    "@parcel/watcher": false,
+    "esbuild": false,
+    "fsevents": false
   }
 }

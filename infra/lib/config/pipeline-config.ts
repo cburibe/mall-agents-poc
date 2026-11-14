@@ -24,7 +24,7 @@ export const pipelineConfig: PipelineConfig = {
   githubActorId: '91168213',
   prodEnabled: false,
   buildImage: 'aws/codebuild/amazonlinux-aarch64-standard:4.0',
-  nodeVersion: '22',
+  nodeVersion: '24',
   pythonVersion: '3.12',
 };
 

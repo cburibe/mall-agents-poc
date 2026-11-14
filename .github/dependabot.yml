@@ -7,6 +7,13 @@ updates:
     groups:
       aws-cdk:
         patterns: ['aws-cdk', 'aws-cdk-lib', '@aws-cdk/*']
+    ignore:
+      # TS 7 (nativo) no es compatible aún con typescript-eslint (<6.1) ni ts-jest (<7).
+      - dependency-name: typescript
+        versions: ['>=7']
+      # Los tipos de Node siguen al runtime (Node 24 en .nvmrc, CodeBuild y Lambda); se suben junto con él.
+      - dependency-name: '@types/node'
+        update-types: ['version-update:semver-major']
     open-pull-requests-limit: 5
 
   - package-ecosystem: uv

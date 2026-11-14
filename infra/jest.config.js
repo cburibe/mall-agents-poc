@@ -3,7 +3,7 @@ module.exports = {
   testEnvironment: 'node',
   roots: ['<rootDir>/test'],
   testMatch: ['**/*.test.ts'],
-  transform: { '^.+\\.ts$': ['ts-jest', { isolatedModules: true }] },
+  transform: { '^.+\\.ts$': 'ts-jest' },
   // Los tests sintetizan stacks con bundling de Docker (PythonFunction).
   testTimeout: 300000,
 };
